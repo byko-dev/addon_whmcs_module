@@ -1,7 +1,9 @@
 <?php
 
 namespace WHMCS\Module\Addon\Addon_WHMCS_Module;
+
 use WHMCS\User\Client;
+
 class ClientsData {
 
     public function formatDataToJson(object $records) : string {

@@ -2,9 +2,11 @@
 
 namespace WHMCS\Module\Addon\Addon_WHMCS_Module;
 
-class AdminDispatcher extends Pagination {
+class AdminDispatcher extends AbstractPagination {
+
     private ClientsData $clientsData;
     private int $tableSize;
+
     public function __construct(string $moduleLink, int $tableSize){
         parent::__construct($moduleLink);
 
@@ -42,7 +44,6 @@ class AdminDispatcher extends Pagination {
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
                 <script> 
-                
                     let data = $data;
                     $(document).ready(function() {
                         $('#myTable').DataTable({
