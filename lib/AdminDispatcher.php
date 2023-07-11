@@ -22,8 +22,8 @@ class AdminDispatcher extends AbstractPagination {
         //gets clients data using small chunks
         $records = $this->clientsData->getClientsData($this->page, $this->tableSize);
 
-        //format clients data to json
-        $data = $this->clientsData->formatDataToJson($records);
+        /* format data to json and save to file */
+        $link = $this->clientsData->getDataFromVirtualFile($records);
 
         return <<<EOF
              <div>
@@ -43,11 +43,19 @@ class AdminDispatcher extends AbstractPagination {
                 </table>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
+
                 <script> 
-                    let data = $data;
+                    
                     $(document).ready(function() {
                         $('#myTable').DataTable({
-                            data: data,
+                            'ajax': {
+                                url: '$link',
+                                type: 'GET',
+                                dataType: 'json',
+                                dataSrc: ''
+                            },
+                            "deferRender": true,
                             columns: [
                                 { data: 'id' },
                                 { data: 'Firstname' },
