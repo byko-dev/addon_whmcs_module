@@ -4,26 +4,20 @@ namespace WHMCS\Module\Addon\Addon_WHMCS_Module;
 
 class AdminDispatcher extends AbstractPagination {
 
-    private ClientsData $clientsData;
     private int $tableSize;
 
     public function __construct(string $moduleLink, int $tableSize){
         parent::__construct($moduleLink);
-
-        $this->clientsData = new ClientsData();
         $this->tableSize = $tableSize;
     }
 
     public function index() {
-        //links to pagination table
+        /* links to pagination table */
         $backPage = $this->back($this->page);
         $nextPage = $this->next($this->page);
 
-        //gets clients data using small chunks
-        $records = $this->clientsData->getClientsData($this->page, $this->tableSize);
-
-        /* format data to json and save to file */
-        $link = $this->clientsData->getDataFromVirtualFile($records);
+        /* link to execute data.php with path variables */
+        $link = "/modules/addons/addon_whmcs_module/lib/data.php?page=$this->page&size=$this->tableSize";
 
         return <<<EOF
              <div>
@@ -44,9 +38,7 @@ class AdminDispatcher extends AbstractPagination {
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
-
                 <script> 
-                    
                     $(document).ready(function() {
                         $('#myTable').DataTable({
                             'ajax': {

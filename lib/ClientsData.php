@@ -6,7 +6,7 @@ use WHMCS\User\Client;
 
 class ClientsData {
 
-    private function formatDataToJson(object $records) : string {
+    public function formatDataToJson(object $records) : string {
         $data = [];
 
         foreach ($records as $record){
@@ -20,11 +20,5 @@ class ClientsData {
     public function getClientsData(int $page = 1, int $size = 3) : object {
         $offset = ($page - 1) * $size;
         return Client::limit($size)->offset($offset)->get();
-    }
-
-    public function getDataFromVirtualFile(object $records) : string {
-        $path = "user_data.json";
-        file_put_contents($path, $this->formatDataToJson($records));
-        return $path;
     }
 }
