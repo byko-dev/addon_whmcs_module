@@ -19,10 +19,14 @@ abstract class AbstractPagination {
 
     protected function back(int $page) : string {
         /* $page can not go below 1 */
-        return ($page > 1) ? $this->moduleLink . "&page=" . --$page : "#";
+        return ($page > 1) ? "$this->moduleLink&page=" . --$page : "#";
     }
 
     protected function next(int $page) : string {
-        return $this->moduleLink . "&page=" . ++$page;
+        return "$this->moduleLink&page=" . ++$page;
+    }
+
+    protected function dataLink() : string {
+        return "$this->moduleLink&page=$this->page&action=data";
     }
 }

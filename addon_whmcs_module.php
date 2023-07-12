@@ -31,9 +31,14 @@ function addon_whmcs_module_config() : array
  * Admin Area Output.
  * required Access Control => Full Administrator
  */
-function addon_whmcs_module_output(array $vars) : void {
-    $adminDispatcher = new AdminDispatcher($vars["modulelink"], $vars["tableRecords"]);
-    echo $adminDispatcher->index();
+function addon_whmcs_module_output(array $vars) {
+    $action = $_REQUEST['action'] ?? '';
+
+    $adminDispatcher = new AdminDispatcher();
+    echo $adminDispatcher->dispatch($action, $vars["modulelink"], $vars["tableRecords"]);
+
+    /* when true, dont execute the rest of script, returns json data */
+    if($action === "data") exit();
 }
 
 
